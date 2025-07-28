@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/:path*",
+            "destination": "http://bonch.space:4000/:path*"
+        }
+    ]
+}
