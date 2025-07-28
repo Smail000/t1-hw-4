@@ -26,3 +26,29 @@
 - Приложение опубликовано в открытом доступе на платформе **Versel**: [Ссылка](вставить_ссылку)
 - Репозиторий backend части: [Ссылка](https://github.com/Pardeg/forms-server)
 - Backend часть опубликована на хостинге и доступно: <http://bonch.space:4000>
+
+## Инструкция установки и запуска
+
+> [!important]
+> Для запуска приложения необходимо установить **Node.js** версии 20 или выше.
+
+### Установка
+
+```bash
+git clone https://github.com/Smail000/t1-hw-4.git
+cd t1-hw-4
+npm i
+```
+
+### Сброка и запуск production-версии
+
+```bash
+npm run build
+npm run preview
+```
+
+### Запуск в режиме разработки
+
+```bash
+npm run dev
+```
