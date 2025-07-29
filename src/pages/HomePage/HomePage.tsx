@@ -1,27 +1,44 @@
-import { Box, Button, Spinner } from "@chakra-ui/react";
+import { request } from "@/shared/lib/request";
+import { Button, Center, Spinner, Stack, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { Toaster } from "@/shared/components/Toast";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 export default function HomePage() {
 
-    const { isPending, isError, data, error } = useQuery({
-        queryKey: ["auth"],
-        queryFn: () => fetch("/api/v1/auth/me", { method: "GET" }).then(value => value.json())
+    const navigate = useNavigate();
+
+    const { isPending, data } = useQuery({
+        queryKey: ["user-data"],
+        queryFn: async () => request<never>("/api/v1/users", "GET"),
+        gcTime: 0,
+        staleTime: 0
     })
+
+    useEffect(() => {
+        if (!isPending && data?.statusCode !== 200) {
+            navigate("/login");
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ isPending ])
+
+    if (isPending) return (
+        <Center w={"100%"} h={"100vh"}>
+            <Spinner />
+        </Center>
+    )
+
+    if (data?.statusCode !== 200) return (
+        <Center w={"100%"} h={"100vh"}>
+            <Text>Not allowed</Text>
+        </Center>
+    )
 
     return (
         <>
-            <Box w={"100%"} p={"10px"} display={"flex"} gap={"10px"}>
-                {
-                    isPending ? <Spinner /> :
-                    isError ? JSON.stringify(error) :
-                    JSON.stringify(data)
-                }
-                <Button
-                    onClick={async () => fetch("/api/v1/auth/logout", { method: "POST" })}
-                >Logout</Button>
-            </Box>
-            <Toaster />
+            <Stack w={"fit"} p={"10px"} gap={"10px"}>
+                <Button onClick={() => request("/api/v1/auth/logout", "POST")}>Logout</Button>
+            </Stack>
         </>
     )
 }
