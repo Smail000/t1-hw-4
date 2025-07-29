@@ -16,6 +16,7 @@
 - Typescript
 - Chakra UI v3
 - Tanstack Query v5
+- React Hook Form
 - Vite
 
 ## Особенности реализации
