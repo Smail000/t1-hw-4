@@ -1,0 +1,1 @@
+export { type LoginBody } from "./model/login.type"
