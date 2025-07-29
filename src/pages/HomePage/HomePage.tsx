@@ -1,6 +1,6 @@
 import { Box, Button, Spinner } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-
+import { Toaster } from "@/shared/components/Toast";
 
 export default function HomePage() {
 
@@ -10,15 +10,18 @@ export default function HomePage() {
     })
 
     return (
-        <Box w={"100%"} p={"10px"} display={"flex"} gap={"10px"}>
-            {
-                isPending ? <Spinner /> :
-                isError ? JSON.stringify(error) :
-                JSON.stringify(data)
-            }
-            <Button
-                onClick={async () => fetch("/api/v1/auth/logout", { method: "POST" })}
-            >Logout</Button>
-        </Box>
+        <>
+            <Box w={"100%"} p={"10px"} display={"flex"} gap={"10px"}>
+                {
+                    isPending ? <Spinner /> :
+                    isError ? JSON.stringify(error) :
+                    JSON.stringify(data)
+                }
+                <Button
+                    onClick={async () => fetch("/api/v1/auth/logout", { method: "POST" })}
+                >Logout</Button>
+            </Box>
+            <Toaster />
+        </>
     )
 }
