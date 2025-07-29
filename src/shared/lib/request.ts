@@ -1,11 +1,11 @@
 
 type Method = "GET" | "POST" | "PATCH" | "DELETE";
-type Returns<T> = { data: T, statusCode: number }
+type RequestResult<T> = { data: T, statusCode: number }
 
-export async function request<T, K>(url: string, method: Method, body?: K): Promise<Returns<T>> {
+export async function request<T, K = undefined>(url: string, method: Method, body?: K): Promise<RequestResult<T>> {
     const result = await fetch(url, {
         method,
-        headers: ["POST", "PATCH"].includes(method) ? {
+        headers: ["POST", "PATCH"].includes(method) && body !== undefined ? {
             "Content-Type": "application/json;charset=utf-8"
         } : {},
         body: JSON.stringify(body)
