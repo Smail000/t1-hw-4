@@ -10,7 +10,13 @@ export async function request<T, K = undefined>(url: string, method: Method, bod
         } : {},
         body: JSON.stringify(body)
     });
-    const data = await result.json();
+
+    let data;
+    try {
+        data = await result.json();
+    } catch (e) {
+        data = {}
+    }
     const statusCode = result.status;
 
     return { data, statusCode }

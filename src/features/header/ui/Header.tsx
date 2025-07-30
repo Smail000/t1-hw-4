@@ -1,4 +1,5 @@
 import type { AboutMe } from "@/entities/aboutMe";
+import { toaster } from "@/shared/components/Toast";
 import { request } from "@/shared/lib/request";
 import { Button, Flex, Spinner, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
@@ -27,7 +28,13 @@ export function Header({ to }: HeaderProps) {
                 <Button w={"fit"} onClick={() => navigate("/")}>Список пользователей</Button>
             }
             <Button justifySelf={"flex-end"} w={"fit"}onClick={
-                () => {request("/api/v1/auth/logout", "POST").then(() => navigate("/login"))}}
+                () => {request("/api/v1/auth/logout", "POST").then(() => {
+                    toaster.create({
+                        title: "Вы вышли из аккаунта",
+                        type: "info"
+                    })
+                    navigate("/login")
+                })}}
             >Выйти</Button>
         </Flex>
     )

@@ -1,12 +1,17 @@
 import type { UserGetType } from "@/entities/user/model/user.type"
-import { Button, Table } from "@chakra-ui/react"
+import { Popover } from "@/shared/components/Popover";
+import { Button, Stack, Table, Text } from "@chakra-ui/react"
 import { MdClear, MdDelete, MdDone, MdEdit, MdOutlineHorizontalRule } from "react-icons/md";
+import { useNavigate } from "react-router";
 
 type UsersDataTableProps = {
     users: UserGetType[]
+    refetch: () => never
 }
 
-export function UsersDataTable({ users }: UsersDataTableProps) {
+export function UsersDataTable({ users, refetch }: UsersDataTableProps) {
+    const navigate = useNavigate();
+
     return (
         <Table.Root size="sm" showColumnBorder striped border={"2px solid lightgray"} overflow={"auto"}>
             <Table.Header>
@@ -27,8 +32,25 @@ export function UsersDataTable({ users }: UsersDataTableProps) {
             <Table.Body>
                 {users.map((item) => (
                     <Table.Row key={item.id}>
-                        <Table.Cell><Button variant={"outline"}><MdDelete /></Button></Table.Cell>
-                        <Table.Cell><Button variant={"outline"}><MdEdit /></Button></Table.Cell>
+                        <Table.Cell>
+                            <Popover
+                                child1={
+                                    <Button variant={"outline"}><MdDelete /></Button>
+                                }
+
+                                child2={
+                                    <Stack>
+                                        <Text>Уверены, что хотите удалить пользователя?</Text>
+                                        <Button variant={"outline"} onClick={() => {
+                                            refetch();
+                                            console.log(`Delete task ${item.id}`);
+                                        }}><MdDelete /></Button>
+                                    </Stack>
+                                }
+                            />
+                            
+                        </Table.Cell>
+                        <Table.Cell><Button variant={"outline"} onClick={() => navigate(`user/edit/${item.id}`)}><MdEdit /></Button></Table.Cell>
                         <Table.Cell>{item.id}</Table.Cell>
                         <Table.Cell>{item.name || <MdOutlineHorizontalRule />}</Table.Cell>
                         <Table.Cell>{item.surName || <MdOutlineHorizontalRule />}</Table.Cell>
