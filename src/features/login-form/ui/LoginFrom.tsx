@@ -2,7 +2,6 @@ import { Button, Group, Input, Spinner, Stack, Text } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { onSubmit, onInvalid } from "../model/formHandlers"
 import type { LoginBody } from "@/entities/login";
-import { Toaster } from "@/shared/components/Toast";
 import { useNavigate } from "react-router";
 import { PasswordInput } from "@/shared/components/PasswordInput";
 
@@ -52,7 +51,6 @@ export function LoginForm() {
                 </Group>
                 <Button width="100%" type="submit" variant={isSubmitting ? "outline" : "solid"}>{isSubmitting ? <Spinner /> : "Login"}</Button>
             </Stack>
-            <Toaster />
         </>
     )
 }

@@ -1,5 +1,7 @@
+import type { UserGetType } from "@/entities/user/model/user.type";
+import { UsersDataTable } from "@/features/users-data-table";
 import { request } from "@/shared/lib/request";
-import { Button, Center, Spinner, Stack, Text } from "@chakra-ui/react";
+import { Button, Center, Flex, Spinner, Stack, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
@@ -10,7 +12,7 @@ export default function HomePage() {
 
     const { isPending, data } = useQuery({
         queryKey: ["user-data"],
-        queryFn: async () => request<never>("/api/v1/users", "GET"),
+        queryFn: async () => request<UserGetType[]>("/api/v1/users", "GET"),
         gcTime: 0,
         staleTime: 0
     })
@@ -36,8 +38,13 @@ export default function HomePage() {
 
     return (
         <>
-            <Stack w={"fit"} p={"10px"} gap={"10px"}>
-                <Button onClick={() => request("/api/v1/auth/logout", "POST")}>Logout</Button>
+            <Stack w={"fit"} p={"10px"} gap={"10px"} overflow={"auto"}>
+                <Flex gap={"10px"} alignItems={"center"} w={"full"} justifyContent={"flex-start"}>
+                    <Text>Добро пожаловать, {"user"}</Text>
+                    <Button w={"fit"}>Добавить пользователя</Button>
+                    <Button justifySelf={"flex-end"} w={"fit"} onClick={() => {request("/api/v1/auth/logout", "POST");navigate("/login")}}>Выйти</Button>
+                </Flex>
+                <UsersDataTable users={data.data} />
             </Stack>
         </>
     )
