@@ -1,5 +1,6 @@
 import type { UserGetType } from "@/entities/user/model/user.type"
 import { Popover } from "@/shared/components/Popover";
+import { request } from "@/shared/lib/request";
 import { Button, Stack, Table, Text } from "@chakra-ui/react"
 import { MdClear, MdDelete, MdDone, MdEdit, MdOutlineHorizontalRule } from "react-icons/md";
 import { useNavigate } from "react-router";
@@ -42,8 +43,7 @@ export function UsersDataTable({ users, refetch }: UsersDataTableProps) {
                                     <Stack>
                                         <Text>Уверены, что хотите удалить пользователя?</Text>
                                         <Button variant={"outline"} onClick={() => {
-                                            refetch();
-                                            console.log(`Delete task ${item.id}`);
+                                            request(`/api/v1/users/${item.id}`, "DELETE").then(refetch);
                                         }}><MdDelete /></Button>
                                     </Stack>
                                 }
