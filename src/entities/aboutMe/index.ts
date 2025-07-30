@@ -1,0 +1,1 @@
+export type { AboutMe } from "./model/aboutMe.type"
